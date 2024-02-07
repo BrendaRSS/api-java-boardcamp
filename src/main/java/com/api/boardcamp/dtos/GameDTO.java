@@ -3,6 +3,7 @@ package com.api.boardcamp.dtos;
 import org.hibernate.validator.constraints.URL;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
@@ -15,9 +16,9 @@ public class GameDTO {
     @URL(message = "The type must be a URL")
     private String image;
 
-    @NotBlank
+    // @Positive(message = "Stock total must be greater than zero")
     private int stockTotal;
 
-    @NotBlank
+    // @Positive(message = "Price per day must be greater than zero")
     private int pricePerDay;
 }
