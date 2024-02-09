@@ -50,4 +50,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleCustomerNotFound(CustomersNotFoundException exception){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
+
+    // Rental
+
+    @ExceptionHandler({RentalDaysException.class})
+    public ResponseEntity<Object> handleRentalDays(RentalDaysException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    @ExceptionHandler({GameNotFoundException.class})
+    public ResponseEntity<Object> handleGameNotFound(GameNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
+    @ExceptionHandler({GameOutOfStockException.class})
+    public ResponseEntity<Object> handleGameOutOfStock(GameOutOfStockException exception){
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
+    }
 }

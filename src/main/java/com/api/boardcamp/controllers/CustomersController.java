@@ -38,5 +38,11 @@ public class CustomersController {
         CustomersModel customer = customersService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
+
+    @GetMapping
+    public ResponseEntity<List<CustomersModel>> getAll(){
+        List<CustomersModel> customers = customersService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(customers);
+    }
     
 }

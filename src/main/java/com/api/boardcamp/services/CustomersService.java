@@ -1,5 +1,7 @@
 package com.api.boardcamp.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.api.boardcamp.dtos.CustomersDTO;
@@ -40,7 +42,11 @@ public class CustomersService {
 
     public CustomersModel findById(Long id){
        return customersRepository.findById(id).orElseThrow(
-        () -> new CustomersNotFoundException("Customer not found by thid id"));
+        () -> new CustomersNotFoundException("Customer not found by this id"));
+    }
+
+    public List<CustomersModel> findAll(){
+        return customersRepository.findAll();
     }
     
 }

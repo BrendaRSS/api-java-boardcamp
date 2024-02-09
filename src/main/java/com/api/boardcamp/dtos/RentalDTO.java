@@ -3,25 +3,19 @@ package com.api.boardcamp.dtos;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
 public class RentalDTO {
 
-    @NotNull
+    @NotNull(message = "customerId cannot be null")
     private Long customerId;
 
-    @NotNull
+    @NotNull(message = "gameId cannot be null")
     private Long gameId;
 
-    private LocalDate rentDate;
-
     @NotNull
+    @Positive(message = "daysRented must be a number greater than 0")
     private int daysRented;
-
-    private LocalDate returnDate;
-
-    private int originalPrice; 
-    
-    private int delayFee;
 }
