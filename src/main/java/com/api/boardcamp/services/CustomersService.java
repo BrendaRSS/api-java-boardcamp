@@ -6,6 +6,7 @@ import com.api.boardcamp.dtos.CustomersDTO;
 import com.api.boardcamp.exceptions.CustomersIllegalArgumentException;
 import com.api.boardcamp.exceptions.CustomersCpfConflictException;
 import com.api.boardcamp.exceptions.CustomersNameNotNullException;
+import com.api.boardcamp.exceptions.CustomersNotFoundException;
 import com.api.boardcamp.models.CustomersModel;
 import com.api.boardcamp.repositories.CustomersRepository;
 
@@ -35,6 +36,11 @@ public class CustomersService {
         CustomersModel customer = new CustomersModel(body);
 
         return customersRepository.save(customer);
+    }
+
+    public CustomersModel findById(Long id){
+       return customersRepository.findById(id).orElseThrow(
+        () -> new CustomersNotFoundException("Customer not found by thid id"));
     }
     
 }
