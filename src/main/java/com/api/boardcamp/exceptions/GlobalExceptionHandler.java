@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     
+    // Game
     @ExceptionHandler({GameNameConflictException.class})
     public ResponseEntity<Object> handleGameNameConflict(GameNameConflictException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
@@ -26,5 +27,22 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({GameStockNotNullException.class})
     public ResponseEntity<Object> handleGameStockNotNull(GameStockNotNullException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    // Customer
+
+    @ExceptionHandler({CustomersIllegalArgumentException.class})
+    public ResponseEntity<Object> handleCustomersIllegalArguments(CustomersIllegalArgumentException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    @ExceptionHandler({CustomersNameNotNullException.class})
+    public ResponseEntity<Object> handleCustomersNameNotNull(CustomersNameNotNullException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    @ExceptionHandler({CustomersCpfConflictException.class})
+    public ResponseEntity<Object> handleCustomersCpfConflict(CustomersCpfConflictException exception){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
 }
