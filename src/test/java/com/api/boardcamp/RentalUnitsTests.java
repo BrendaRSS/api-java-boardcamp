@@ -17,7 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.api.boardcamp.dtos.RentalDTO;
 import com.api.boardcamp.exceptions.CustomersNotFoundException;
+import com.api.boardcamp.exceptions.GameNotFoundException;
 import com.api.boardcamp.exceptions.RentalDaysException;
+import com.api.boardcamp.models.CustomersModel;
 import com.api.boardcamp.repositories.CustomersRepository;
 import com.api.boardcamp.repositories.GameRepository;
 import com.api.boardcamp.repositories.RentalRepository;
@@ -53,7 +55,7 @@ class RentalUnitsTests {
 	}
 
 	@Test
-	void givenWrongCustomerId_whenCreatingRental_thenThroesError(){
+	void givenWrongCustomerId_whenCreatingRental_thenThrowsError(){
 
 		RentalDTO rentalDTO = new RentalDTO(1L, 1L, 3);
 
@@ -67,5 +69,25 @@ class RentalUnitsTests {
 		assertEquals("Customer not found by this id", exception.getMessage());
 		verify(rentalRepository, times(0)).save(any());
 		verify(customersRepository, times(1)).findById(any());
+	}
+
+	@Test
+	void givenWrongGameId_whenCreatingRental_thenTrhowsError(){
+		RentalDTO rentalDTO = new RentalDTO(1L, 1L, 3);
+		CustomersModel customer = new CustomersModel(1L, "name", "12345678910");
+
+		doReturn(Optional.of(customer)).when(customersRepository).findById(any());
+		doReturn(Optional.empty()).when(gameRepository).findById(any());
+
+		GameNotFoundException exception = assertThrows(
+			GameNotFoundException.class, 
+			()-> rentalService.save(rentalDTO));
+
+		assertNotNull(exception);
+		assertEquals("Game not found by this id", exception.getMessage());
+		verify(rentalRepository, times(0)).save(any());
+		verify(customersRepository, times(1)).findById(any());
+		verify(gameRepository, times(1)).findById(any());
+
 	}
 }
