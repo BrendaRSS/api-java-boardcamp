@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.api.boardcamp.dtos.RentalDTO;
+import com.api.boardcamp.exceptions.CustomersNotFoundException;
 import com.api.boardcamp.exceptions.RentalDaysException;
 import com.api.boardcamp.repositories.CustomersRepository;
 import com.api.boardcamp.repositories.GameRepository;
@@ -49,5 +50,22 @@ class RentalUnitsTests {
 		assertNotNull(exception);
 		assertEquals("daysRented must be a number greater than 0", exception.getMessage());
 		verify(rentalRepository, times(0)).save(any());
+	}
+
+	@Test
+	void givenWrongCustomerId_whenCreatingRental_thenThroesError(){
+
+		RentalDTO rentalDTO = new RentalDTO(1L, 1L, 3);
+
+		doReturn(Optional.empty()).when(customersRepository).findById(any());
+
+		CustomersNotFoundException exception = assertThrows(
+			CustomersNotFoundException.class, 
+			()-> rentalService.save(rentalDTO));
+
+		assertNotNull(exception);
+		assertEquals("Customer not found by this id", exception.getMessage());
+		verify(rentalRepository, times(0)).save(any());
+		verify(customersRepository, times(1)).findById(any());
 	}
 }
