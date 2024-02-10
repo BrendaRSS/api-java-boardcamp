@@ -67,4 +67,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleGameOutOfStock(GameOutOfStockException exception){
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
+
+    @ExceptionHandler({RentalNotFoundException.class})
+    public ResponseEntity<Object> handleRentalNotFound(RentalNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
+    @ExceptionHandler({RentalAlreadyRefundedException.class})
+    public ResponseEntity<Object> handleRentalAlreadyRefunded(RentalAlreadyRefundedException exception){
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
+    }
 }
