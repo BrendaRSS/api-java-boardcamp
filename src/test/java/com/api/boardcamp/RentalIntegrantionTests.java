@@ -90,5 +90,27 @@ public class RentalIntegrantionTests {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals(0, rentalRepository.count());
     }
+
+    @Test
+    void givenWrongGameId_whenCreatingRental_thenTrhowsError(){
+        CustomersModel customer = new CustomersModel(null, "name", "12345678910");
+        CustomersModel createdCustomer = customersRepository.save(customer);
+
+        GameModel game = new GameModel(null, "name", "https://s2.glbimg.com/4Ek8CnZSuYyyvaNQEPPiX_d-faA=/e.glbimg.com/og/ed/f/original/2017/11/24/gali1.jpg", 5, 3500);
+        GameModel createdGame = gameRepository.save(game);
+        gameRepository.deleteById(createdGame.getId());
+
+        RentalDTO rentalDTO = new RentalDTO(createdCustomer.getId(), createdGame.getId(), 3);
+        HttpEntity<RentalDTO> body = new HttpEntity<>(rentalDTO);
+
+        ResponseEntity<String> response =  restTemplate.exchange(
+            "/rentals",
+            HttpMethod.POST,
+            body, 
+            String.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(0, rentalRepository.count());
+    }
     
 }
